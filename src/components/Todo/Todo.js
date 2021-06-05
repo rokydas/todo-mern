@@ -1,6 +1,6 @@
 import React from 'react';
 
-const Todo = ({ todo, openModal, setData, setIsUpdate }) => {
+const Todo = ({ todo, openModal, setData, setIsUpdate, needUpdate, setNeedUpdate }) => {
     const { title, description, _id } = todo;
 
     const handleUpdateTodo = () => {
@@ -14,12 +14,12 @@ const Todo = ({ todo, openModal, setData, setIsUpdate }) => {
             method: 'DELETE',
         })
         .then(res => res.json())
-        .then(data => console.log(data))
+        .then(data => setNeedUpdate(!needUpdate))
     }
 
     return (
         <div className="col-md-4">
-            <div className="shadow p-5 rounded">
+            <div className="shadow p-5 rounded mb-2">
                 <h3>{title}</h3>
                 <p>{description}</p>
                 <button onClick={handleUpdateTodo} className="btn btn-primary me-3">Update</button>

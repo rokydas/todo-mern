@@ -13,7 +13,7 @@ const customStyles = {
     }
 };
 
-const UpdateBox = ({modalIsOpen, setIsOpen, data, setData, isUpdate}) => {
+const UpdateBox = ({modalIsOpen, setIsOpen, data, setData, isUpdate, setNeedUpdate, needUpdate}) => {
     Modal.setAppElement('#root');
     const {title, description, _id} = data;
 
@@ -34,33 +34,42 @@ const UpdateBox = ({modalIsOpen, setIsOpen, data, setData, isUpdate}) => {
 
     const handleSubmit = (e) => {
         e.preventDefault();
+        console.log(data);
         if(isUpdate) {
             fetch(`http://localhost:5000/update/${_id}`, {
                 method: 'PATCH',
                 headers: {
-                    'content-type': 'application/json',
+                    "Content-Type": "application/json"
                 },
                 body: JSON.stringify(data)
             })
             .then(res => res.json())
-            .then(data => console.log(data))
+            .then(data => {
+                closeModal();
+                setNeedUpdate(!needUpdate);
+            })
         }
         else {
             fetch('http://localhost:5000/addTodo', {
-                method: 'POST',
+                method: 'POST', 
                 headers: {
-                    'content-type': 'application/json',
+                    "Content-Type": "application/json"
                 },
                 body: JSON.stringify(data)
             })
             .then(res => res.json())
-            .then(data => console.log(data))
+            .then(dt => {
+                closeModal();
+                // const newTodos = [...todos];
+                // newTodos.push(data);
+                // setTodos(newTodos);
+                setNeedUpdate(!needUpdate);
+            })
         }
     }
 
     return (
         <div>
-            {/* <button onClick={openModal}>Open Modal</button> */}
             <Modal
                 isOpen={modalIsOpen}
                 onAfterOpen={afterOpenModal}

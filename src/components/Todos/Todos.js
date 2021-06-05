@@ -1,10 +1,12 @@
 import React, { useEffect, useState } from 'react';
 import Todo from '../Todo/Todo';
 import UpdateBox from '../UpdateBox/UpdateBox';
+import fakeData from '../fakeData/data.json';
 
 const Todos = () => {
 
     const [todos, setTodos] = useState([]);
+    const [needUpdate, setNeedUpdate] = useState(false);
     const [modalIsOpen, setIsOpen] = useState(false);
     const [data, setData] = useState({
         title: '',
@@ -24,9 +26,9 @@ const Todos = () => {
 
     useEffect(() => {
         fetch('http://localhost:5000/todos')
-            .then(res => res.json())
-            .then(data => setTodos(data))
-    }, [])
+        .then(res => res.json())
+        .then(data => setTodos(data))
+    }, [needUpdate])
 
     return (
         <div className="container text-center">
@@ -37,6 +39,8 @@ const Todos = () => {
                     todos.map(
                         todo => <Todo
                             setData={setData}
+                            setNeedUpdate={setNeedUpdate}
+                            needUpdate={needUpdate}
                             openModal={openModal}
                             setIsUpdate={setIsUpdate}
                             key={todo._id} todo={todo} />
@@ -46,6 +50,8 @@ const Todos = () => {
 
             <UpdateBox
                 modalIsOpen={modalIsOpen}
+                needUpdate={needUpdate}
+                setNeedUpdate={setNeedUpdate}
                 setIsOpen={setIsOpen}
                 data={data} 
                 setData={setData}
