@@ -1,7 +1,7 @@
 import React from 'react';
 
 const Todo = ({ todo, openModal, setData, setIsUpdate, needUpdate, setNeedUpdate }) => {
-    const { title, description, _id } = todo;
+    const { title, description, _id, img } = todo;
 
     const handleUpdateTodo = () => {
         setData(todo);
@@ -20,6 +20,7 @@ const Todo = ({ todo, openModal, setData, setIsUpdate, needUpdate, setNeedUpdate
     return (
         <div className="col-md-4">
             <div className="shadow p-5 rounded mb-2">
+                <img className="img-fluid" src={img} alt="" />
                 <h3>{title}</h3>
                 <p>{description}</p>
                 <button onClick={handleUpdateTodo} className="btn btn-primary me-3">Update</button>
